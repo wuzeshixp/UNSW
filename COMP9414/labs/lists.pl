@@ -9,3 +9,9 @@ is_member(Element, list(Element, _)).
 % recursive case
 is_member(Element, list(_,Tail)) :-
 	is_member(Element, Tail).
+
+
+cons([], List, List).
+
+cons([Head | Tail], List, [Head|Result]) :-
+	cons(Tail, List, Result).
