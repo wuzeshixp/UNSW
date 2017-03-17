@@ -1,0 +1,61 @@
+$ ssh grieg
+$ cd /srvr/YOU
+$ cp /home/cs9311/web/17s1/postgresql/postgresql-9.3.3.tar.bz2 /srvr/YOU/
+$ tar xfjv /srvr/YOU/postgresql-9.3.3.tar.bz2
+... produces no output; takes approx 2 minutes; creates/populates a directory called postgresql-9.3.3 ...
+$ cd postgresql-9.3.3
+$ ./configure --prefix=/srvr/YOU/pgsql
+... produces lots of output; takes approx 1 minute ...
+$ make
+... produces lots of output; takes approx 5 minutes ...
+$ make install
+... produces lots of output; takes approx 1 minute ...
+$ cp /home/cs9311/web/17s1/postgresql/env  /srvr/YOU/env
+$ edit /srvr/YOU/env
+... select the appropriate PGDATA directory ...
+$ source /srvr/YOU/env
+$ which initdb
+/srvr/YOU/pgsql/bin/initdb
+$ initdb
+... produces some output; should be quite quick ...
+$ edit $PGDATA/postgresql.conf
+... set unix_socket_directories = 'name of PGDATA directory' ...
+... set max_connections = 5 ...
+... set listen_addresses = '' ...
+$ which pg_ctl
+/srvr/YOU/pgsql/bin/pg_ctl
+$ pg_ctl start -l $PGDATA/log
+server starting
+$ psql -l
+                           List of databases
+   Name    | Owner | Encoding  | Collation | Ctype | Access privileges 
+-----------+-------+-----------+-----------+-------+-------------------
+ postgres  | YOU   | LATIN1    | C         | C     | 
+ template0 | YOU   | LATIN1    | C         | C     | =c/YOU
+                                                   : YOU=CTc/YOU
+ template1 | YOU   | LATIN1    | C         | C     | =c/YOU
+                                                   : YOU=CTc/YOU
+(3 rows)
+$ ... use your PostgreSQL server e.g. create example database ...
+$ pg_ctl stop
+waiting for server to shut down.... done
+server stopped
+
+
+A Typical session with PostgreSQL 
+
+Once you've got your PostgreSQL server installed, this is what you'd normally do to use it:
+$ source /srvr/YOU/env
+$ pgs setup
+... BUT ONLY if your PGDATA directory is on /tmp ...
+$ pgs start
+... hopefully concluding with the message ...
+server started
+$ psql -l
+... hopefully giving a list of databases ...
+$ createdb myNewDB
+$ psql myNewDB
+... do stuff with your database ... 
+$ pgs stop
+... hopefully concluding with the message ...
+server stopped
