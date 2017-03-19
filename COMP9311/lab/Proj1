@@ -191,20 +191,23 @@ proj1=# select * from affiliations where role=1286 and ending IS NULL and orguni
                                 (9 rows)
 
 
-Q2.starting:#select starting from affiliations where role=1286 and ending IS NULL and orgunit in
-(select id from orgunits where utype=1);
 
-Q2.phone:#select phone from staff where id in
-(select staff from affiliations where role=1286 and ending IS NULL and orgunit in
-(select id from orgunits where utype=1));      
 
-Q.faculty:#select longname from orgunits where utype =1 and id in
-(select orgunit from affiliations where role=1286 and ending IS NULL and orgunit in
-(select id from orgunits where utype=1));      
+ 
+
+
 
 Q.name:#select name from people where id in
 (select staff from affiliations where role=1286 and ending IS NULL and orgunit in
 (select id from orgunits where utype=1));     
 
+Q.faculty:#select longname from orgunits where utype =1 and id in
+(select orgunit from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1));      
 
+Q2.phone:#select phone from staff where id in
+(select staff from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1));     
 
+Q2.starting:#select starting from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1);
