@@ -133,13 +133,78 @@ proj1=# select * from orgunits where utype =1;
   112 |     1 | Faculty of Engineering              | Faculty of Engineering                      | ENG    |          |                       |         | 1980-01-01 | 
   164 |     1 | Faculty of Law                      | Faculty of Law                              | LAW    |          |                       |         | 2000-01-01 | 
   183 |     1 | Faculty of Medicine                 | Faculty of Medicine                         | MED    |          |                       |         | 2000-01-01 | 
- 1278 |     1 | Australian School of Business       | Australian School of Business               | COMM   | 99319500 |                       |         | 2000-01-01 | 
+ 1278 |     1 | Australian School of Business       | Australian School of Business               | COM\dM   | 99319500 |                       |         | 2000-01-01 | 
  1519 |     1 | UNSW Asia                           | UNSW Asia                                   | ASIA   |          |                       |         | 2000-01-01 | 
  1597 |     1 | Faculty of AA                       | The Academic Administration Faculty (Test)  |        | 93850000 | wlmok@cse.unsw.edu.au |         | 2000-01-01 | 
  1626 |     1 | BOS                                 | DVC (A) Board of Studies                    |        |          |                       |         | 2000-01-01 | 
 (14 rows)
 
 
+proj1=# select * from staff_roles where name='Dean';
+                                    id  | rtype | rclass | name | description 
+                                  ------+-------+--------+------+-------------
+                                   1286 | A     | A      | Dean | 
+                                  (1 row)
 
 
-                          
+proj1=# select * from affiliations where role=1286 and ending IS NULL;
+
+                                    staff   | orgunit | role | isprimary |  starting  | ending 
+                                  ----------+---------+------+-----------+------------+--------
+                                   50404791 |     112 | 1286 | t         | 2001-01-01 | 
+                                   50404791 |    1446 | 1286 | f         | 2001-01-01 | 
+                                   50404791 |    1448 | 1286 | f         | 2001-01-01 | 
+                                    5034591 |    1567 | 1286 | f         | 2010-03-05 | 
+                                    5034591 |     164 | 1286 | t         | 2010-03-05 | 
+                                   50280287 |    1450 | 1286 | f         | 2001-01-01 | 
+                                   50280287 |      31 | 1286 | t         | 2001-01-01 | 
+                                   50405697 |      64 | 1286 | t         | 2010-03-05 | 
+                                   50405697 |    1572 | 1286 | f         | 2010-03-08 | 
+                                   50405697 |    1573 | 1286 | f         | 2010-03-09 | 
+                                   50392143 |    1571 | 1286 | f         | 2010-03-09 | 
+                                   50500017 |    1568 | 1286 | f         | 2010-06-07 | 
+                                   50500017 |    1569 | 1286 | f         | 2010-06-07 | 
+                                   50500017 |      52 | 1286 | t         | 2010-06-07 | 
+                                   50392143 |    1570 | 1286 | f         | 2010-03-08 | 
+                                   50392143 |     183 | 1286 | t         | 2010-08-12 | 
+                                   50404672 |      31 | 1286 | f         | 2012-07-25 | 
+                                   50500017 |    1506 | 1286 | f         | 2001-01-01 | 
+                                   50509754 |    1278 | 1286 | t         | 2013-02-19 | 
+                                    5034580 |      82 | 1286 | t         | 2013-04-01 | 
+                                    5034580 |    1575 | 1286 | f         | 2013-04-22 | 
+                                  (21 rows)
+
+
+proj1=# select * from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1);
+                                  staff   | orgunit | role | isprimary |  starting  | ending 
+                                ----------+---------+------+-----------+------------+--------
+                                 50280287 |      31 | 1286 | t         | 2001-01-01 | 
+                                 50404672 |      31 | 1286 | f         | 2012-07-25 | 
+                                 50500017 |      52 | 1286 | t         | 2010-06-07 | 
+                                 50405697 |      64 | 1286 | t         | 2010-03-05 | 
+                                  5034580 |      82 | 1286 | t         | 2013-04-01 | 
+                                 50404791 |     112 | 1286 | t         | 2001-01-01 | 
+                                  5034591 |     164 | 1286 | t         | 2010-03-05 | 
+                                 50392143 |     183 | 1286 | t         | 2010-08-12 | 
+                                 50509754 |    1278 | 1286 | t         | 2013-02-19 | 
+                                (9 rows)
+
+
+Q2.starting:#select starting from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1);
+
+Q2.phone:#select phone from staff where id in
+(select staff from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1));      
+
+Q.faculty:#select longname from orgunits where utype =1 and id in
+(select orgunit from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1));      
+
+Q.name:#select name from people where id in
+(select staff from affiliations where role=1286 and ending IS NULL and orgunit in
+(select id from orgunits where utype=1));     
+
+
+
