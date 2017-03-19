@@ -1,0 +1,38 @@
+$ ssh grieg
+$ cd /srvr/YOU
+$ source /srvr/YOU/env
+$ initdb
+$ edit $PGDATA/postgresql.conf
+... set unix_socket_directories = 'name of PGDATA directory' ...
+... set max_connections = 5 ...
+... set listen_addresses = '' ...
+$ pg_ctl start -l $PGDATA/log
+$ psql -l
+
+$createdb  proj1
+$ psql  proj1  -f  /home/cs9311/web/17s1/proj/proj1/mymyunsw.dump
+$ psql  proj1
+... run some checks to make sure the database is ok
+
+proj1=# \d
+... look at the schema ...
+proj1=# select * from Students;
+... look at the Students table ...
+proj1=# select p.unswid,p.name from People p join Students s on (p.id=s.id);
+... lookat the names and UNSW ids of all students ...
+proj1=# select p.unswid,p.name,s.phone from People p join Staff s on (p.id=s.id);
+... look at the names, staff ids, and phone #s of all staff ...
+proj1=# select count(*) from Course_Enrolments;
+... how many course enrolment records ...
+proj1=# select * from dbpop();
+... how many records in all tables ...
+proj1=# select * from transcript(3197893);
+... transcript for student with ID 3197893
+...
+proj1=# ... etc. etc. etc.
+proj1=# \q
+
+
+$ mkdir  Project1Directory
+... make a working directory for Project 1
+$ cp  /home/cs9311/web/17s1/proj/proj1/proj1.sql  Project1Directory
