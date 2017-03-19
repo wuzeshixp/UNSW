@@ -90,5 +90,56 @@ proj1=# select unswid,name from buildings where id in (select building from room
       
  proj1=# create view Q1 as select unswid,name from buildings where id in 
         (select building from rooms group by building having count(building)>30);
-                  
+ 
+ 
+ 
+ 
+####################################################################################################################
+project1 question2
 
+Define a SQL view Q2(name,faculty,phone,starting)which gives the details about 
+all of the current Dean of Faculty. Each tuple in the view should contain the following:
+
+his/her name (use the name field from the People table)
+
+the faculty (use the longname field from the OrgUnits table)
+
+his/her phone number (use the phone field from Staff table)
+
+the date when he/she was a ppointed (use the starting field from the Affiliations table)
+Since there is some dirty-looking data in the Affiliations table,
+you will need to ensure that you return only legitimate Deans of Faculty. Apply the following filters together:
+
+only choose people whose role is exactly ‘Dean’
+
+only choose organisational units whose type is actually ‘Faculty'
+Note:
+Every current Dean has null value in the Affiliations.ending field.
+####################################################################################################################
+
+
+
+proj1=# select * from orgunits where utype =1;
+
+  id  | utype |                name                 |                  longname                   | unswid |  phone   |         email         | website |  starting  |   ending   
+------+-------+-------------------------------------+---------------------------------------------+--------+----------+-----------------------+---------+------------+------------
+    2 |     1 | Board Studies Sci & Math            | Board of Studies in Science and Mathematics | BSSM   |          |                       |         | 1990-01-01 | 2000-01-01
+    3 |     1 | Faculty of Life Sciences            | Faculty of Life Sciences                    | LIFE   |          |                       |         | 2000-01-01 | 2005-01-01
+   31 |     1 | Faculty of Arts and Social Sciences | Faculty of Arts and Social Sciences         | ARTSC  |          |                       |         | 2000-01-01 | 
+   38 |     1 | UNSW Canberra at ADFA               | UNSW Canberra at ADFA                       | UNICL  |          |                       |         | 2000-01-01 | 
+   52 |     1 | Faculty of Science                  | Faculty of Science                          | SCI    |          |                       |         | 2000-01-01 | 
+   64 |     1 | Faculty of Built Environment        | Faculty of Built Environment                | BLTEN  | 93854799 | fbe@unsw.edu.au       |         | 2000-01-01 | 
+   82 |     1 | College of Fine Arts (COFA)         | College of Fine Arts (COFA)                 | COFA   | 93850684 | cofa@unsw.edu.au      |         | 2000-01-01 | 
+  112 |     1 | Faculty of Engineering              | Faculty of Engineering                      | ENG    |          |                       |         | 1980-01-01 | 
+  164 |     1 | Faculty of Law                      | Faculty of Law                              | LAW    |          |                       |         | 2000-01-01 | 
+  183 |     1 | Faculty of Medicine                 | Faculty of Medicine                         | MED    |          |                       |         | 2000-01-01 | 
+ 1278 |     1 | Australian School of Business       | Australian School of Business               | COMM   | 99319500 |                       |         | 2000-01-01 | 
+ 1519 |     1 | UNSW Asia                           | UNSW Asia                                   | ASIA   |          |                       |         | 2000-01-01 | 
+ 1597 |     1 | Faculty of AA                       | The Academic Administration Faculty (Test)  |        | 93850000 | wlmok@cse.unsw.edu.au |         | 2000-01-01 | 
+ 1626 |     1 | BOS                                 | DVC (A) Board of Studies                    |        |          |                       |         | 2000-01-01 | 
+(14 rows)
+
+
+
+
+                          
