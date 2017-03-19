@@ -1,3 +1,8 @@
+###################################
+PREPARE
+
+
+####################################
 $ ssh grieg
 $ cd /srvr/YOU
 $ source /srvr/YOU/env
@@ -36,3 +41,54 @@ proj1=# \q
 $ mkdir  Project1Directory
 ... make a working directory for Project 1
 $ cp  /home/cs9311/web/17s1/proj/proj1/proj1.sql  Project1Directory
+
+
+
+
+##########################################################
+project1 question1 
+
+Define a SQL view Q1(unswid,name)that gives all the buildings that have more than 30 rooms. 
+Each tuple in the view should contain the following:
+the id of the building (Buildings.unswidfield) 
+the name of the building (Buildings.namefield)
+##########################################################
+proj1=# select building,count(*) from rooms group by building having count(building)>30;
+
+                           building | count 
+                          ----------+-------
+                                112 |    41
+                                115 |    47
+                                107 |    51
+                                121 |    40
+                                101 |    39
+                                213 |    55
+                                117 |    49
+                                111 |    56
+                                100 |    78
+                                116 |    42
+                                102 |    35
+                                105 |    35
+                          (12 rows)
+                          
+proj1=# select unswid,name from buildings where id in (select building from rooms group by building having count(building)>30);
+                             unswid |              name               
+                            --------+---------------------------------
+                             K17    | Computer Science Building
+                             MECH   | Mechanical Engineering Building
+                             CHEMSC | Chemical Sciences Building
+                             ASB    | Australian School of Business
+                             EE     | Electrical Engineering Building
+                             MAT    | Mathews Building
+                             MB     | Morven Brown Building
+                             OMB    | Old Main Building
+                             QUAD   | Quadrangle
+                             RC     | Red Centre
+                             WEB    | Robert Webster Building
+                             F      | Building F
+                            (12 rows)
+      
+ proj1=# create view Q1 as select unswid,name from buildings where id in 
+        (select building from rooms group by building having count(building)>30);
+                  
+
