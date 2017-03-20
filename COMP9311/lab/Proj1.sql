@@ -113,8 +113,8 @@ you will need to ensure that you return only legitimate Deans of Faculty. Apply 
 only choose people whose role is exactly ‘Dean’
 
 only choose organisational units whose type is actually ‘Faculty'
-Note:
-Every current Dean has null value in the Affiliations.ending field.
+
+Every current Dean has null value in the Affiliations.ending field;;;;;;;;;;;;;;;;;;;;;;;;;;
 ####################################################################################################################
 
 
