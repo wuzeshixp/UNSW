@@ -213,45 +213,8 @@ Q2.starting:#select starting from affiliations where role=1286 and ending IS NUL
 (select id from orgunits where utype=1);
 
 
+proj1=# create view Q2 as select people.name AS NAME, longname AS FACULTY,staff.phone AS PHONE,affiliations.starting AS STARTING
+from people,orgunits,affiliations,staff
+where orgunits.utype=1 and orgunits.id = affiliations.orgunit and affiliations.role=1286 and affiliations.ending IS NULL
+and people.id=affiliations.staff and staff.id=affiliations.staff;
 
-create view test2 as select p.name,o.longname, s.phone, a.starting
-from people p, orgunits o, staff s, affiliations a, orgunits o2
-where p.id in(select staff from affiliations where role =1286 and ending IS NULL and orgunit in
- (select o2.id from orgunits o2 where o2.utype=1)) 
-and o.utype =1 and o.id in
-(select orgunit from affiliations where role=1286 and ending IS NULL and orgunit in
-(select o2.id from orgunits o2 where o2.utype=1))
-and s.id in
-(select a.staff from affiliations  where role=1286 and ending IS NULL and orgunit in
-(select o2.id from orgunits o2 where o2.utype=1))
-and a.role=1286 and a.ending IS NULL and a.orgunit in
-(select o2.id from orgunits o2 where o2.utype=1);
-
-create view test3 as select p.name, a.starting
-from people p, affiliations a, orgunits o2
-where p.id in
-(select a.staff from affiliations a where a.role =1286 and a.ending IS NULL and a.orgunit in
-(select o2.id from orgunits o2 where o2.utype=1));
-
-
-//
-create view test2 as select p.name,o.longname
-from people p, orgunits o
-where p.id in(select staff from affiliations where role =1286 and ending IS NULL and orgunit in
- (select id from orgunits where utype=1)) 
-and o.utype =1 and o.id in
-(select orgunit from affiliations where role=1286 and ending IS NULL and orgunit in
-(select id from orgunits where utype=1));
-//
-
-
-(select p.name
-from people p
-where p.id in(select staff from affiliations where role =1286 and ending IS NULL and orgunit in
- (select id from orgunits where utype=1)) )
- INTERSECT
- (select o.longname
-from orgunits o
-where o.utype =1 and o.id in
-(select orgunit from affiliations where role=1286 and ending IS NULL and orgunit in
-(select id from orgunits where utype=1)) );
