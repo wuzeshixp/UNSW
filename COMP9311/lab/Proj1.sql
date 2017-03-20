@@ -112,10 +112,9 @@ you will need to ensure that you return only legitimate Deans of Faculty. Apply 
 
 only choose people whose role is exactly ‘Dean’
 
-only choose organisational units whose type is actually ‘Faculty'
 
 Every current Dean has null value in the Affiliations.ending field;;;;;;;;;;;;;;;;;;;;;;;;;;
-####################################################################################################################
+##########################################################################################################################
 
 
 
@@ -217,4 +216,50 @@ proj1=# create view Q2 as select people.name AS NAME, longname AS FACULTY,staff.
 from people,orgunits,affiliations,staff
 where orgunits.utype=1 and orgunits.id = affiliations.orgunit and affiliations.role=1286 and affiliations.ending IS NULL
 and people.id=affiliations.staff and staff.id=affiliations.staff;
+
+
+####################################################################################################################
+
+####################################################################################################################
+
+select * from Q2 where starting =(select min(starting) from Q2) or starting =(select max(starting) from Q2);
+     name      |               faculty               |  phone   |  starting
+---------------+-------------------------------------+----------+------------
+ Graham Davies | Faculty of Engineering              | 93854970 | 2001-01-01
+ James Donald  | Faculty of Arts and Social Sciences | 93851739 | 2001-01-01
+ Ross Harley   | College of Fine Arts (COFA)         | 93850758 | 2013-04-01
+
+//http://www.cnblogs.com/xiaowu/archive/2011/08/17/2143445.html
+//http://www.cnblogs.com/Richardzhu/p/3571670.html
+//proj1 q3 wuzeshi 
+create view Q3 as
+select (case 
+           when starting =(select max(starting) from Q2) then 'Shortest serving'
+           when starting =(select min(starting) from Q2) then 'Longest serving'
+           else 'warning'
+           end
+          ) status ,name, faculty, starting
+from Q2 where starting =(select min(starting) from Q2) or starting =(select max(starting) from Q2);
+
+///
+
+select (case when eftsload>0 then uoc/eftsload end) as ratio ,count(*) from subjects group by ratio;
+##因为eftsload 可能为0##
+
+select cast(eftsload as numeric(4,1)) from subjects;
+
+select cast((case when eftsload>0 then uoc/eftsload end) as numeric(4,1)) as ratio ,
+count(*) as nsubjects from subjects group by ratio;
+
+  create view q4 as 
+  select cast(
+                (case 
+                 when eftsload>0 then uoc/eftsload 
+                 else 0
+                 end
+                ) as numeric(4,1)
+              ) as ratio ,
+  count(*) as nsubjects from subjects group by ratio;
+
+
 
