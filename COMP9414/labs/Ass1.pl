@@ -68,6 +68,22 @@ same_name(Person1, Person2) :-
     male(X),
     Person1 \= Person2.
 
+% Q3
+% Write a predicate log_table(NumberList, ResultList) that binds ResultList to the list of pairs consisting of a number and its log, for each number in NumberList. For example:
+% ?- log_table([1,3.7,5], Result).
+% Result = [[1, 0.0], [3.7, 1.308332819650179], [5, 1.6094379124341003]].
+
+%base 
+log_table([],Result):-
+    
+log_table([Head|Tail], Result):-
+    log_table([Head], Result)
+    log_table([Tail], Result)
+    
+% There is a num in the []    
+log_table(_, Result):-
+    Result is log(_) 
+
 
 
 % Q4
